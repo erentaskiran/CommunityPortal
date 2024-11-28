@@ -24,12 +24,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd apps/client
+          cd apps/client/
           npm install
 
       - name: Build project
         run: |
-          cd apps/client
+          cd apps/client/
           npm run build
 
       - name: Upload build artifact
