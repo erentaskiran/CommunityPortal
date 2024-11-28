@@ -24,7 +24,7 @@ func (r *Router) NewRouter() *mux.Router {
 
 	router.Use(middleware.CorsMiddleware)
 
-	router.HandleFunc("/healthcheck").Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/healthcheck", HealthCheck).Methods(http.MethodGet, http.MethodOptions)
 
 	return router
 }
