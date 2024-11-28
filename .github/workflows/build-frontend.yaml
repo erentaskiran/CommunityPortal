@@ -20,7 +20,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm' 
+          cache: 'npm'
+
+      - name: Check for package-lock.json
+        run: |
+          cd apps/client/
+          ls -la
 
       - name: Install dependencies
         run: |
