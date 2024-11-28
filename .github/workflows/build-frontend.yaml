@@ -20,17 +20,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn' 
+          cache: 'npm' 
 
       - name: Install dependencies
         run: |
           cd apps/client
-          yarn install
+          npm install
 
       - name: Build project
         run: |
           cd apps/client
-          yarn build
+          npm run build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
