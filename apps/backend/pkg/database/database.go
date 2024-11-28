@@ -57,10 +57,10 @@ func SetupDb() (*sql.DB, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	err = SetupTables(sqlDB)
-	if err != nil {
-		return nil, fmt.Errorf("failed to setup tables: %w", err)
-	}
+	//err = SetupTables(sqlDB)
+	//if err != nil {
+	//return nil, fmt.Errorf("failed to setup tables: %w", err)
+	//}
 
 	fmt.Println("Successfully connected to the database")
 
@@ -68,91 +68,5 @@ func SetupDb() (*sql.DB, error) {
 
 }
 
-func SetupTables(db *sql.DB) error {
-	stmt := `
-CREATE TABLE IF NOT EXISTS "users" (
-"id" VARCHAR(128) PRIMARY KEY,
-"first_name" VARCHAR(255) NOT NULL,
-"last_name" VARCHAR(255) NOT NULL,
-"email" VARCHAR(255) UNIQUE NOT NULL,
-"password" VARCHAR(255) NOT NULL,
-"telephone_number" VARCHAR(11) UNIQUE NOT NULL,
-"point" DOUBLE PRECISION,
-"created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-"updated_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
-);
-
-`
-
-	_, err := db.Exec(stmt)
-	if err != nil {
-		return fmt.Errorf("failed to create users table: %w", err)
-	}
-
-	stmt = `
-CREATE TABLE  IF NOT EXISTS"companys" (
-      "id" VARCHAR(128) PRIMARY KEY,
-      "company_name" VARCHAR(255) NOT NULL,
-      "email" VARCHAR(255) UNIQUE NOT NULL,
-      "password" VARCHAR(255) NOT NULL,
-      "telephone_number" VARCHAR(11) UNIQUE NOT NULL,
-      "logo" VARCHAR(255),
-      "point" DOUBLE PRECISION,
-      "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-      "updated_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
-);
-
-`
-
-	_, err = db.Exec(stmt)
-	if err != nil {
-		return fmt.Errorf("failed to create chats table: %w", err)
-	}
-
-	stmt = `
-CREATE TABLE IF NOT EXISTS "work_detail" (
-"id" UUID PRIMARY KEY DEFAULT (gen_random_uuid()),
-"start_date" TIMESTAMP NOT NULL,
-"end_date" TIMESTAMP NOT NULL,
-"trailer_type" VARCHAR(255) NOT NULL,
-"weight" VARCHAR(100) NOT NULL,
-"description" TEXT,
-"completed" VARCHAR(1) NOT NULL
-);
-
-`
-
-	_, err = db.Exec(stmt)
-	if err != nil {
-		return fmt.Errorf("failed to create chats table: %w", err)
-	}
-
-	stmt = `
-CREATE TABLE IF NOT EXISTS "works" (
-      "company_id" VARCHAR(128),
-      "work_detail_id" UUID,
-      "user_id" VARCHAR(128),
-      "start_date" VARCHAR(255) NOT NULL,
-      "end_date" VARCHAR(255) NOT NULL,
-      "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-      "updated_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-      PRIMARY KEY ("work_detail_id", "company_id")
-);
-
-ALTER TABLE "works" ADD FOREIGN KEY ("company_id") REFERENCES "companys" ("id");
-
-ALTER TABLE "works" ADD FOREIGN KEY ("work_detail_id") REFERENCES "work_detail" ("id");
-
-ALTER TABLE "works" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-
-`
-
-	_, err = db.Exec(stmt)
-	if err != nil {
-		return fmt.Errorf("failed to create chats table: %w", err)
-	}
-
-	fmt.Println("tables successfully created")
-	return nil
-}
+//func SetupTables(db *sql.DB) error {
+//}
